@@ -1,6 +1,5 @@
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.vbproj.AssemblyReference.cache
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.Resources.resources
-C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.Ventas.resources
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.vbproj.GenerateResource.cache
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.vbproj.CoreCompileInputs.cache
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\bin\Debug\Proyecto092_202109710.exe.config
@@ -15,5 +14,5 @@ C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\P
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.AdminForm.resources
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.InicioForm.resources
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.InventarioForm.resources
-C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.RecuperarContraseñaForm.resources
 C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.AdminUsuarioForm.resources
+C:\Users\luis2\Desktop\Programación de Computadoras 2\202109710_Proyecto 0092\Proyecto092_202109710\Proyecto092_202109710\obj\Debug\Proyecto092_202109710.VentasForm.resources

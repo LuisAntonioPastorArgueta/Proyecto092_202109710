@@ -10,65 +10,94 @@ Public Class ConexionSQLServer
         connectionString = "Data Source=LAPTOP-LP\SQLEXPRESS;Initial Catalog=Proyecto092;Integrated Security=True"
         connection = New SqlConnection(connectionString)
     End Sub
-    Public Function IniciarSesion(usuario As String, contraseña As String) As Boolean
-        Dim usuarioRegistrado As Boolean = False
-        Dim cuentaActiva As Boolean = False
+    Public Function IniciarSesion(usuario As String, contrasena As String) As Boolean
+        Dim query As String = "SELECT COUNT(*) FROM Usuarios WHERE Usuario = @Usuario AND Contrasena = @Contrasena"
+        Dim count As Integer
 
+        Using cmd As New SqlCommand(query, connection)
+            cmd.Parameters.AddWithValue("@Usuario", usuario)
+            cmd.Parameters.AddWithValue("@Contrasena", contrasena)
+            connection.Open()
+            count = Convert.ToInt32(cmd.ExecuteScalar())
+        End Using
+
+        If count > 0 Then
+            Dim queryEstado As String = "SELECT COUNT(*) FROM Usuarios WHERE Usuario = @Usuario AND EstadoCuenta = 'Activo'"
+            Dim countEstado As Integer
+
+            Using cmdEstado As New SqlCommand(queryEstado, connection)
+                cmdEstado.Parameters.AddWithValue("@Usuario", usuario)
+                countEstado = Convert.ToInt32(cmdEstado.ExecuteScalar())
+            End Using
+
+            If countEstado > 0 Then
+                Return True
+            Else
+                MessageBox.Show("La cuenta de usuario no está activa. Por favor, contacte al administrador.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End If
+        Else
+            MessageBox.Show("Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+    End Function
+
+    Public Function Administrador(usuario As String, contrasena As String) As Boolean
+        Dim query As String = "SELECT COUNT(*) FROM Usuarios WHERE Usuario = @Usuario AND Contrasena = @Contrasena"
+        Dim count As Integer
+
+        Using cmd As New SqlCommand(query, connection)
+            cmd.Parameters.AddWithValue("@Usuario", usuario)
+            cmd.Parameters.AddWithValue("@Contrasena", contrasena)
+            connection.Open()
+            count = Convert.ToInt32(cmd.ExecuteScalar())
+        End Using
+
+        If count > 0 Then
+            Dim queryRol As String = "SELECT COUNT(*) FROM Usuarios WHERE Usuario = @Usuario AND Rol = 'Admin'"
+            Dim countRol As Integer
+
+            Using cmdRol As New SqlCommand(queryRol, connection)
+                cmdRol.Parameters.AddWithValue("@Usuario", usuario)
+                countRol = Convert.ToInt32(cmdRol.ExecuteScalar())
+            End Using
+
+            If countRol > 0 Then
+                Return True
+            Else
+                MessageBox.Show("No tiene permiso para acceder como administrador.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End If
+        Else
+            MessageBox.Show("Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+    End Function
+
+
+    Public Sub InsertarUsuario(id As Integer, nombre As String, apellido As String, dpi As String, fechaNacimiento As Date, telefono As String, usuario As String, correoElectronico As String, contrasena As String, rol As String, estadoCuenta As String)
         Try
             connection.Open()
-
-            ' Consulta SQL para verificar el usuario y la contraseña
-            Dim query As String = "SELECT EstadoCuenta FROM Usuarios WHERE Usuario = @Usuario AND Contraseña = @Contraseña"
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.AddWithValue("@Usuario", usuario)
-                command.Parameters.AddWithValue("@Contraseña", contraseña)
-                Dim estadoCuenta As String = Convert.ToString(command.ExecuteScalar())
-
-                If estadoCuenta IsNot Nothing Then
-                    usuarioRegistrado = True
-                    If estadoCuenta = "Activo" Then
-                        cuentaActiva = True
-                    End If
-                End If
-            End Using
-        Catch ex As SqlException
-            MessageBox.Show("Error de SQL al iniciar sesión: " & ex.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Dim query As String = "INSERT INTO Usuarios (ID, Nombre, Apellido, DPI, FechaNacimiento, Telefono, Usuario, CorreoElectronico, Contrasena, Rol, EstadoCuenta) VALUES (@ID, @Nombre, @Apellido, @DPI, @FechaNacimiento, @Teléfono, @Usuario, @CorreoElectronico, @Contrasena, @Rol, @EstadoCuenta)"
+            Dim command As New SqlCommand(query, connection)
+            command.Parameters.AddWithValue("@ID", id)
+            command.Parameters.AddWithValue("@Nombre", nombre)
+            command.Parameters.AddWithValue("@Apellido", apellido)
+            command.Parameters.AddWithValue("@DPI", dpi)
+            command.Parameters.AddWithValue("@FechaNacimiento", fechaNacimiento)
+            command.Parameters.AddWithValue("@Teléfono", telefono)
+            command.Parameters.AddWithValue("@Usuario", usuario)
+            command.Parameters.AddWithValue("@CorreoElectronico", correoElectronico)
+            command.Parameters.AddWithValue("@Contrasena", contrasena)
+            command.Parameters.AddWithValue("@Rol", rol)
+            command.Parameters.AddWithValue("@EstadoCuenta", estadoCuenta)
+            command.ExecuteNonQuery()
         Catch ex As Exception
-            MessageBox.Show("Error al iniciar sesión: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Console.WriteLine("Error al insertar el usuario: " & ex.Message)
         Finally
             connection.Close()
         End Try
-
-        ' Devolver verdadero solo si el usuario está registrado y la cuenta está activa
-        Return usuarioRegistrado AndAlso cuentaActiva
-    End Function
-
-    Public Function UsuarioBloqueado(usuario As String) As Boolean
-        Dim bloqueado As Boolean = False
-
-        Try
-            connection.Open()
-
-            ' Consulta SQL para verificar si el usuario está bloqueado
-            Dim query As String = "SELECT EstadoCuenta FROM Usuarios WHERE Usuario = @Usuario"
-            Using command As New SqlCommand(query, connection)
-                command.Parameters.AddWithValue("@Usuario", usuario)
-                Dim estadoCuenta As String = Convert.ToString(command.ExecuteScalar())
-
-                If estadoCuenta IsNot Nothing AndAlso estadoCuenta = "Bloqueado" Then
-                    bloqueado = True
-                End If
-            End Using
-        Catch ex As SqlException
-            MessageBox.Show("Error de SQL al verificar si el usuario está bloqueado: " & ex.Message, "Error de SQL", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As Exception
-            MessageBox.Show("Error al verificar si el usuario está bloqueado: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            connection.Close()
-        End Try
-
-        Return bloqueado
-    End Function
+    End Sub
 
     Public Function UsuarioRegistrado(usuario As String) As Boolean
         Dim registrado As Boolean = False
@@ -98,56 +127,6 @@ Public Class ConexionSQLServer
     End Function
 
 
-    Public Function ObtenerCorreoElectronico(usuario As String) As String
-        Dim correoElectronico As String = ""
-        Try
-            connection.Open()
-            Dim query As String = "SELECT CorreoElectronico FROM Usuarios WHERE Usuario = @Usuario"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@Usuario", usuario)
-            correoElectronico = Convert.ToString(command.ExecuteScalar())
-        Catch ex As Exception
-            Console.WriteLine("Error al obtener la dirección de correo electrónico: " & ex.Message)
-        Finally
-            connection.Close()
-        End Try
-        Return correoElectronico
-    End Function
-
-    Public Sub EnviarCorreoElectronico(correoElectronico As String)
-        Try
-            Dim fromAddress As New MailAddress("luis2003pastor@gmail.com", "Luis Pastor")
-            Dim toAddress As New MailAddress(correoElectronico)
-            Dim smtp As New SmtpClient()
-            smtp.Host = "smtp.gmail.com"
-            smtp.Port = 587
-            smtp.EnableSsl = True
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network
-            smtp.UseDefaultCredentials = False
-            smtp.Credentials = New NetworkCredential("luis2003pastor@gmail.com", "WICHO/pastor")
-            Dim message As New MailMessage(fromAddress, toAddress)
-            message.Subject = "Cuenta Bloqueada"
-            message.Body = "Tu cuenta ha sido bloqueada debido a múltiples intentos de inicio de sesión fallidos."
-            smtp.Send(message)
-            MessageBox.Show("Se ha enviado un correo electrónico de bloqueo a la dirección registrada.", "Correo Enviado", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show("Error al enviar el correo electrónico: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    Public Sub BloquearCuenta(usuario As String)
-        Try
-            connection.Open()
-            Dim query As String = "UPDATE Usuarios SET EstadoCuenta = 'Bloqueado' WHERE Usuario = @Usuario"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@Usuario", usuario)
-            command.ExecuteNonQuery()
-        Catch ex As Exception
-            Console.WriteLine("Error al bloquear la cuenta: " & ex.Message)
-        Finally
-            connection.Close()
-        End Try
-    End Sub
     Public Function ObtenerRolUsuario(usuario As String) As String
         Dim rol As String = ""
         Try
@@ -164,45 +143,22 @@ Public Class ConexionSQLServer
         Return rol
     End Function
 
-    Public Sub InsertarUsuario(nombre As String, apellido As String, dpi As String, fechaNacimiento As Date, telefono As String, usuario As String, correoElectronico As String, contraseña As String, rol As String, estadoCuenta As String)
+    Public Sub ActualizarUsuario(id As Integer, nombre As String, apellido As String, dpi As String, fechaNacimiento As Date, telefono As String, usuario As String, correoElectronico As String, contrasena As String, rol As String, estadoCuenta As String)
         Try
             connection.Open()
-            Dim query As String = "INSERT INTO Usuarios (Nombre, Apellido, DPI, FechaNacimiento, Teléfono, Usuario, CorreoElectronico, Contraseña, Rol, EstadoCuenta) VALUES (@Nombre, @Apellido, @DPI, @FechaNacimiento, @Teléfono, @Usuario, @CorreoElectronico, @Contraseña, @Rol, @EstadoCuenta)"
+            Dim query As String = "UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, DPI = @DPI, FechaNacimiento = @FechaNacimiento, Telefono = @Telefono, Usuario = @Usuario, CorreoElectronico = @CorreoElectronico, Rol = @Rol, EstadoCuenta = @EstadoCuenta, Contrasena = @Contrasena WHERE ID = @ID"
             Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@Nombre", nombre)
-            command.Parameters.AddWithValue("@Apellido", apellido)
-            command.Parameters.AddWithValue("@DPI", dpi)
-            command.Parameters.AddWithValue("@FechaNacimiento", fechaNacimiento)
-            command.Parameters.AddWithValue("@Teléfono", telefono)
-            command.Parameters.AddWithValue("@Usuario", usuario)
-            command.Parameters.AddWithValue("@CorreoElectronico", correoElectronico)
-            command.Parameters.AddWithValue("@Contraseña", contraseña)
-            command.Parameters.AddWithValue("@Rol", rol)
-            command.Parameters.AddWithValue("@EstadoCuenta", estadoCuenta)
-            command.ExecuteNonQuery()
-        Catch ex As Exception
-            Console.WriteLine("Error al insertar el usuario: " & ex.Message)
-        Finally
-            connection.Close()
-        End Try
-    End Sub
-
-    Public Sub ActualizarUsuario(id As Integer, nombre As String, apellido As String, dpi As String, fechaNacimiento As Date, telefono As String, usuario As String, correoElectronico As String, contraseña As String, rol As String, estadoCuenta As String)
-        Try
-            connection.Open()
-            Dim query As String = "UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, DPI = @DPI, FechaNacimiento = @FechaNacimiento, Teléfono = @Teléfono, Usuario = @Usuario, CorreoElectronico = @CorreoElectronico, Contraseña = @Contraseña, Rol = @Rol, EstadoCuenta = @EstadoCuenta WHERE ID = @ID"
-            Dim command As New SqlCommand(query, connection)
-            command.Parameters.AddWithValue("@Nombre", nombre)
-            command.Parameters.AddWithValue("@Apellido", apellido)
-            command.Parameters.AddWithValue("@DPI", dpi)
-            command.Parameters.AddWithValue("@FechaNacimiento", fechaNacimiento)
-            command.Parameters.AddWithValue("@Teléfono", telefono)
-            command.Parameters.AddWithValue("@Usuario", usuario)
-            command.Parameters.AddWithValue("@CorreoElectronico", correoElectronico)
-            command.Parameters.AddWithValue("@Contraseña", contraseña)
-            command.Parameters.AddWithValue("@Rol", rol)
-            command.Parameters.AddWithValue("@EstadoCuenta", estadoCuenta)
             command.Parameters.AddWithValue("@ID", id)
+            command.Parameters.AddWithValue("@Nombre", nombre)
+            command.Parameters.AddWithValue("@Apellido", apellido)
+            command.Parameters.AddWithValue("@DPI", dpi)
+            command.Parameters.AddWithValue("@FechaNacimiento", fechaNacimiento)
+            command.Parameters.AddWithValue("@Telefono", telefono)
+            command.Parameters.AddWithValue("@Usuario", usuario)
+            command.Parameters.AddWithValue("@CorreoElectronico", correoElectronico)
+            command.Parameters.AddWithValue("@Contrasena", contrasena)
+            command.Parameters.AddWithValue("@Rol", rol)
+            command.Parameters.AddWithValue("@EstadoCuenta", estadoCuenta)
             command.ExecuteNonQuery()
         Catch ex As Exception
             Console.WriteLine("Error al actualizar el usuario: " & ex.Message)
@@ -210,6 +166,8 @@ Public Class ConexionSQLServer
             connection.Close()
         End Try
     End Sub
+
+
 
     Public Sub EliminarUsuario(id As Integer)
         Try
@@ -229,7 +187,7 @@ Public Class ConexionSQLServer
         Dim dataTable As New DataTable()
         Try
             connection.Open()
-            Dim query As String = "SELECT ID, Nombre, Apellido, DPI, FechaNacimiento, Teléfono, Usuario, CorreoElectronico, Contraseña, Rol, EstadoCuenta FROM Usuarios"
+            Dim query As String = "SELECT ID, Nombre, Apellido, DPI, FechaNacimiento, Telefono, Usuario, CorreoElectronico, Contrasena, Rol, EstadoCuenta FROM Usuarios"
             Dim adapter As New SqlDataAdapter(query, connection)
             adapter.Fill(dataTable)
         Catch ex As Exception
@@ -238,5 +196,82 @@ Public Class ConexionSQLServer
             connection.Close()
         End Try
         Return dataTable
+    End Function
+
+    Public Sub AgregarInventario(nombre As String, cantidad As Integer, unidadMedida As String, precioUnitario As Decimal, proveedor As String, telefonoProveedor As String, fechaCaducidad As Date, notas As String)
+        Try
+            connection.Open()
+            Dim query As String = "INSERT INTO Inventario (NombreIngrediente, Cantidad, UnidadMedida, PrecioUnitario, Proveedor, TelefonoProveedor, FechaCaducidad, Notas) VALUES (@Nombre, @Cantidad, @UnidadMedida, @PrecioUnitario, @Proveedor, @TelefonoProveedor, @FechaCaducidad, @Notas)"
+            Dim command As New SqlCommand(query, connection)
+            command.Parameters.AddWithValue("@Nombre", nombre)
+            command.Parameters.AddWithValue("@Cantidad", cantidad)
+            command.Parameters.AddWithValue("@UnidadMedida", unidadMedida)
+            command.Parameters.AddWithValue("@PrecioUnitario", precioUnitario)
+            command.Parameters.AddWithValue("@Proveedor", proveedor)
+            command.Parameters.AddWithValue("@TelefonoProveedor", telefonoProveedor)
+            command.Parameters.AddWithValue("@FechaCaducidad", fechaCaducidad)
+            command.Parameters.AddWithValue("@Notas", notas)
+            command.ExecuteNonQuery()
+            MessageBox.Show("Ingrediente agregado correctamente")
+        Catch ex As Exception
+            Console.WriteLine("Error al agregar ingrediente: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+    End Sub
+    Public Sub ActualizarInventario(id As Integer, nombre As String, cantidad As Integer, unidadMedida As String, precioUnitario As Decimal, proveedor As String, telefonoProveedor As String, fechaCaducidad As Date, notas As String)
+        Try
+            connection.Open()
+            Dim query As String = "UPDATE Inventario SET NombreIngrediente = @Nombre, Cantidad = @Cantidad, UnidadMedida = @UnidadMedida, PrecioUnitario = @PrecioUnitario, Proveedor = @Proveedor, TelefonoProveedor = @TelefonoProveedor, FechaCaducidad = @FechaCaducidad, Notas = @Notas WHERE Id = @ID"
+            Dim command As New SqlCommand(query, connection)
+            command.Parameters.AddWithValue("@ID", id)
+            command.Parameters.AddWithValue("@Nombre", nombre)
+            command.Parameters.AddWithValue("@Cantidad", cantidad)
+            command.Parameters.AddWithValue("@UnidadMedida", unidadMedida)
+            command.Parameters.AddWithValue("@PrecioUnitario", precioUnitario)
+            command.Parameters.AddWithValue("@Proveedor", proveedor)
+            command.Parameters.AddWithValue("@TelefonoProveedor", telefonoProveedor)
+            command.Parameters.AddWithValue("@FechaCaducidad", fechaCaducidad)
+            command.Parameters.AddWithValue("@Notas", notas)
+            command.ExecuteNonQuery()
+            MessageBox.Show("Ingrediente actualizado correctamente")
+        Catch ex As Exception
+            Console.WriteLine("Error al actualizar ingrediente: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+    End Sub
+    Public Sub EliminarInventario(id As Integer)
+        Try
+            connection.Open()
+            Dim query As String = "DELETE FROM Inventario WHERE Id = @ID"
+            Dim command As New SqlCommand(query, connection)
+            command.Parameters.AddWithValue("@ID", id)
+            command.ExecuteNonQuery()
+            MessageBox.Show("Ingrediente eliminado correctamente")
+        Catch ex As Exception
+            Console.WriteLine("Error al eliminar ingrediente: " & ex.Message)
+        Finally
+            connection.Close()
+        End Try
+    End Sub
+    Public Function ObtenerInventario() As DataTable
+        Dim dt As New DataTable()
+
+        Try
+            Using connection As New SqlConnection(connectionString)
+                connection.Open()
+                Dim query As String = "SELECT * FROM Inventario"
+                Using command As New SqlCommand(query, connection)
+                    Using adapter As New SqlDataAdapter(command)
+                        adapter.Fill(dt)
+                    End Using
+                End Using
+            End Using
+        Catch ex As Exception
+            Console.WriteLine("Error al obtener el inventario: " & ex.Message)
+        End Try
+
+        Return dt
     End Function
 End Class

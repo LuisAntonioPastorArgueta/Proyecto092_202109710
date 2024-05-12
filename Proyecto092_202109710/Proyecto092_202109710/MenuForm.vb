@@ -1,7 +1,7 @@
 ﻿Public Class MenuForm
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Ventas.Show()
+        VentasForm.Show()
         Me.Hide()
     End Sub
 
@@ -11,6 +11,8 @@
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        MessageBox.Show("Has cerrado sesión.", "¡Hasta pronto!", MessageBoxButtons.OK)
         Me.Close()
     End Sub
+
 End Class

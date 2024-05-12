@@ -26,8 +26,8 @@ Partial Class AdminUsuarioForm
         Me.txbUsuario = New System.Windows.Forms.TextBox()
         Me.txbCorreoElectronico = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.txbCantidad = New System.Windows.Forms.TextBox()
-        Me.txbContraseña = New System.Windows.Forms.TextBox()
+        Me.txbRol = New System.Windows.Forms.TextBox()
+        Me.txbContrasena = New System.Windows.Forms.TextBox()
         Me.botLimpiar = New System.Windows.Forms.Button()
         Me.botEliminar = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -39,7 +39,7 @@ Partial Class AdminUsuarioForm
         Me.txbTelefono = New System.Windows.Forms.TextBox()
         Me.txbNombre = New System.Windows.Forms.TextBox()
         Me.botEditar = New System.Windows.Forms.Button()
-        Me.botAgregar = New System.Windows.Forms.Button()
+        Me.botMostrar = New System.Windows.Forms.Button()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.txbApellido = New System.Windows.Forms.TextBox()
         Me.Label19 = New System.Windows.Forms.Label()
@@ -48,6 +48,8 @@ Partial Class AdminUsuarioForm
         Me.botRegresar = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.dtpFechaNacimiento = New System.Windows.Forms.DateTimePicker()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txbEstado = New System.Windows.Forms.TextBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -62,7 +64,7 @@ Partial Class AdminUsuarioForm
         '
         Me.txbUsuario.Location = New System.Drawing.Point(311, 69)
         Me.txbUsuario.Name = "txbUsuario"
-        Me.txbUsuario.Size = New System.Drawing.Size(136, 20)
+        Me.txbUsuario.Size = New System.Drawing.Size(201, 20)
         Me.txbUsuario.TabIndex = 15
         '
         'txbCorreoElectronico
@@ -82,28 +84,28 @@ Partial Class AdminUsuarioForm
         Me.Label12.TabIndex = 39
         Me.Label12.Text = "Contraseña"
         '
-        'txbCantidad
+        'txbRol
         '
-        Me.txbCantidad.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txbCantidad.Location = New System.Drawing.Point(311, 187)
-        Me.txbCantidad.Name = "txbCantidad"
-        Me.txbCantidad.Size = New System.Drawing.Size(139, 22)
-        Me.txbCantidad.TabIndex = 38
+        Me.txbRol.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txbRol.Location = New System.Drawing.Point(311, 187)
+        Me.txbRol.Name = "txbRol"
+        Me.txbRol.Size = New System.Drawing.Size(86, 22)
+        Me.txbRol.TabIndex = 38
         '
-        'txbContraseña
+        'txbContrasena
         '
-        Me.txbContraseña.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txbContraseña.Location = New System.Drawing.Point(311, 129)
-        Me.txbContraseña.Name = "txbContraseña"
-        Me.txbContraseña.Size = New System.Drawing.Size(139, 22)
-        Me.txbContraseña.TabIndex = 37
+        Me.txbContrasena.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txbContrasena.Location = New System.Drawing.Point(311, 129)
+        Me.txbContrasena.Name = "txbContrasena"
+        Me.txbContrasena.Size = New System.Drawing.Size(201, 22)
+        Me.txbContrasena.TabIndex = 37
         '
         'botLimpiar
         '
         Me.botLimpiar.BackColor = System.Drawing.Color.Navy
         Me.botLimpiar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.botLimpiar.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.botLimpiar.Location = New System.Drawing.Point(510, 154)
+        Me.botLimpiar.Location = New System.Drawing.Point(554, 151)
         Me.botLimpiar.Name = "botLimpiar"
         Me.botLimpiar.Size = New System.Drawing.Size(121, 26)
         Me.botLimpiar.TabIndex = 36
@@ -115,7 +117,7 @@ Partial Class AdminUsuarioForm
         Me.botEliminar.BackColor = System.Drawing.Color.Navy
         Me.botEliminar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.botEliminar.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.botEliminar.Location = New System.Drawing.Point(510, 125)
+        Me.botEliminar.Location = New System.Drawing.Point(554, 122)
         Me.botEliminar.Name = "botEliminar"
         Me.botEliminar.Size = New System.Drawing.Size(121, 26)
         Me.botEliminar.TabIndex = 35
@@ -203,24 +205,24 @@ Partial Class AdminUsuarioForm
         Me.botEditar.BackColor = System.Drawing.Color.Navy
         Me.botEditar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.botEditar.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.botEditar.Location = New System.Drawing.Point(510, 95)
+        Me.botEditar.Location = New System.Drawing.Point(554, 92)
         Me.botEditar.Name = "botEditar"
         Me.botEditar.Size = New System.Drawing.Size(121, 26)
         Me.botEditar.TabIndex = 24
         Me.botEditar.Text = "Editar"
         Me.botEditar.UseVisualStyleBackColor = False
         '
-        'botAgregar
+        'botMostrar
         '
-        Me.botAgregar.BackColor = System.Drawing.Color.Navy
-        Me.botAgregar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.botAgregar.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.botAgregar.Location = New System.Drawing.Point(510, 66)
-        Me.botAgregar.Name = "botAgregar"
-        Me.botAgregar.Size = New System.Drawing.Size(121, 26)
-        Me.botAgregar.TabIndex = 23
-        Me.botAgregar.Text = "Crear Usuario"
-        Me.botAgregar.UseVisualStyleBackColor = False
+        Me.botMostrar.BackColor = System.Drawing.Color.Navy
+        Me.botMostrar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.botMostrar.ForeColor = System.Drawing.SystemColors.ControlLightLight
+        Me.botMostrar.Location = New System.Drawing.Point(554, 63)
+        Me.botMostrar.Name = "botMostrar"
+        Me.botMostrar.Size = New System.Drawing.Size(121, 26)
+        Me.botMostrar.TabIndex = 23
+        Me.botMostrar.Text = "Mostrar Usuarios"
+        Me.botMostrar.UseVisualStyleBackColor = False
         '
         'Label18
         '
@@ -265,22 +267,22 @@ Partial Class AdminUsuarioForm
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(311, 170)
+        Me.Label21.Location = New System.Drawing.Point(411, 170)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(130, 14)
+        Me.Label21.Size = New System.Drawing.Size(100, 14)
         Me.Label21.TabIndex = 46
-        Me.Label21.Text = "Confirmar Contraseña"
+        Me.Label21.Text = "Estado de Cuenta"
         '
         'botRegresar
         '
         Me.botRegresar.BackColor = System.Drawing.Color.Navy
         Me.botRegresar.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.botRegresar.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.botRegresar.Location = New System.Drawing.Point(510, 183)
+        Me.botRegresar.Location = New System.Drawing.Point(554, 180)
         Me.botRegresar.Name = "botRegresar"
         Me.botRegresar.Size = New System.Drawing.Size(121, 26)
         Me.botRegresar.TabIndex = 47
-        Me.botRegresar.Text = "Regresar a Inicio"
+        Me.botRegresar.Text = "Regresar a Menú"
         Me.botRegresar.UseVisualStyleBackColor = False
         '
         'DataGridView1
@@ -289,7 +291,7 @@ Partial Class AdminUsuarioForm
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Location = New System.Drawing.Point(17, 231)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(681, 150)
+        Me.DataGridView1.Size = New System.Drawing.Size(862, 150)
         Me.DataGridView1.TabIndex = 48
         '
         'dtpFechaNacimiento
@@ -299,11 +301,31 @@ Partial Class AdminUsuarioForm
         Me.dtpFechaNacimiento.Size = New System.Drawing.Size(119, 20)
         Me.dtpFechaNacimiento.TabIndex = 49
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(311, 170)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(26, 14)
+        Me.Label1.TabIndex = 51
+        Me.Label1.Text = "Rol"
+        '
+        'txbEstado
+        '
+        Me.txbEstado.Font = New System.Drawing.Font("Cambria", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txbEstado.Location = New System.Drawing.Point(414, 187)
+        Me.txbEstado.Name = "txbEstado"
+        Me.txbEstado.Size = New System.Drawing.Size(98, 22)
+        Me.txbEstado.TabIndex = 50
+        '
         'AdminUsuarioForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(710, 402)
+        Me.ClientSize = New System.Drawing.Size(907, 402)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.txbEstado)
         Me.Controls.Add(Me.dtpFechaNacimiento)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.botRegresar)
@@ -313,8 +335,8 @@ Partial Class AdminUsuarioForm
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.txbApellido)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.txbCantidad)
-        Me.Controls.Add(Me.txbContraseña)
+        Me.Controls.Add(Me.txbRol)
+        Me.Controls.Add(Me.txbContrasena)
         Me.Controls.Add(Me.botLimpiar)
         Me.Controls.Add(Me.botEliminar)
         Me.Controls.Add(Me.Label13)
@@ -326,12 +348,12 @@ Partial Class AdminUsuarioForm
         Me.Controls.Add(Me.txbTelefono)
         Me.Controls.Add(Me.txbNombre)
         Me.Controls.Add(Me.botEditar)
-        Me.Controls.Add(Me.botAgregar)
+        Me.Controls.Add(Me.botMostrar)
         Me.Controls.Add(Me.txbCorreoElectronico)
         Me.Controls.Add(Me.txbUsuario)
         Me.Controls.Add(Me.txbDPI)
         Me.Name = "AdminUsuarioForm"
-        Me.Text = "Pizzeria - Inicio de Sesión"
+        Me.Text = "Pizzeria - Administrar Usuarios"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -341,8 +363,8 @@ Partial Class AdminUsuarioForm
     Friend WithEvents txbUsuario As TextBox
     Friend WithEvents txbCorreoElectronico As TextBox
     Friend WithEvents Label12 As Label
-    Friend WithEvents txbCantidad As TextBox
-    Friend WithEvents txbContraseña As TextBox
+    Friend WithEvents txbRol As TextBox
+    Friend WithEvents txbContrasena As TextBox
     Friend WithEvents botLimpiar As Button
     Friend WithEvents botEliminar As Button
     Friend WithEvents Label13 As Label
@@ -354,7 +376,7 @@ Partial Class AdminUsuarioForm
     Friend WithEvents txbTelefono As TextBox
     Friend WithEvents txbNombre As TextBox
     Friend WithEvents botEditar As Button
-    Friend WithEvents botAgregar As Button
+    Friend WithEvents botMostrar As Button
     Friend WithEvents Label18 As Label
     Friend WithEvents txbApellido As TextBox
     Friend WithEvents Label19 As Label
@@ -363,4 +385,6 @@ Partial Class AdminUsuarioForm
     Friend WithEvents botRegresar As Button
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents dtpFechaNacimiento As DateTimePicker
+    Friend WithEvents Label1 As Label
+    Friend WithEvents txbEstado As TextBox
 End Class

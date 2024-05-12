@@ -126,17 +126,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RecuperarContraseñaForm.Designer.vb">
-      <DependentUpon>RecuperarContraseñaForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="RecuperarContraseñaForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ConexionSQLServer.vb" />
-    <Compile Include="Ventas.Designer.vb">
-      <DependentUpon>Ventas.vb</DependentUpon>
+    <Compile Include="VentasForm.Designer.vb">
+      <DependentUpon>VentasForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Ventas.vb">
+    <Compile Include="VentasForm.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -165,11 +159,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="RecuperarContraseñaForm.resx">
-      <DependentUpon>RecuperarContraseñaForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ventas.resx">
-      <DependentUpon>Ventas.vb</DependentUpon>
+    <EmbeddedResource Include="VentasForm.resx">
+      <DependentUpon>VentasForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
